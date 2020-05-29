@@ -3,7 +3,10 @@ FROM ${IMAGE_NAME}
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get install -y build-essential git
+RUN apt-get update && \
+    apt-get install -y build-essential git \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update && \
     apt-get install -y libgstreamer* \
@@ -16,6 +19,8 @@ RUN apt-get update && \
     gstreamer1.0-tools \
     gstreamer1.0-x \
     gstreamer1.0-alsa \
-    gstreamer1.0-pulseaudio
+    gstreamer1.0-pulseaudio \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN pkg-config --cflags --libs gstreamer-1.0
